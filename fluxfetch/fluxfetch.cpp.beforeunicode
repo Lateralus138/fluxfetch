@@ -1,0 +1,108 @@
+//////////////////////////////////////////////////
+// 'Flux Fetch' - 'Fetch' and display           //
+// operating system information in a console /  //
+// command line.                                //
+// © 2022 Ian Pride - New Pride Software /      //
+// Services                                     //
+//////////////////////////////////////////////////
+#include <iostream>
+#include "Functions.h"
+#include <iostream>
+//#include <algorithm>
+#include <Windows.h>
+#include <signal.h>
+#include <vector>
+//#include <cmath>
+#include <regex>
+//#include <limits>
+
+//#include <chrono>
+//#include <thread>
+//#include <string>
+using namespace std;
+int main(int argc, char* argv[])
+{
+  string logo =
+    "";
+  SetConsoleCtrlHandler(SignalControlCHandler, true);
+  DWORD
+    dwProcessIdMain,
+    dwProcessIdThis = GetCurrentProcessId();
+  HWND conHwnd = GetConsoleWindow();
+  GetWindowThreadProcessId(conHwnd, &dwProcessIdMain);
+  const bool isOwnConWin = (dwProcessIdThis == dwProcessIdMain);
+  const string
+    TITLE = "Flux Fetch",
+    TITLEESC = "\x1b]0;" + TITLE + "\007";
+  bool
+    isOwnWindow = IsOwnWindow();
+  auto wait_continue =
+    [isOwnWindow]()
+  {
+    if (isOwnWindow)
+    {
+      cout << "Press [Enter] to continue... ";
+      cin.get();
+      cout << '\n';
+    }
+  };
+  const std::regex
+    RGX_HELP("^/([hH]|[hH][eE][lL][pP]|\\?)$");
+  const std::vector <std::string> BOX =
+  {
+    u8"\u250C", u8"\u2500", u8"\u2510", u8"\u2502",
+    u8"\u2514", u8"\u2518", u8"\u251C", u8"\u2524"
+  };
+  const std::string CR = u8"\u00A9";
+  std::string box_line;
+  for (auto i = 0; i < 48; ++i)
+  {
+    box_line += BOX[1];
+  }
+
+  SetConsoleOutputCP(CP_UTF8);
+  SetConsoleCP(CP_UTF8);
+  SetConsoleTitleA(TITLE.c_str());
+  if (isOwnConWin)
+  {
+    SetWindowTextA(conHwnd, TITLE.c_str());
+  }
+  if (argc > 1)
+  {
+    bool skip = false;
+    for (auto index = 1; index < argc; index++)
+    {
+      if (skip)
+      {
+        skip = false;
+        continue;
+      }
+      string thisArg = argv[index];
+      if (regex_match(thisArg, RGX_HELP)) // TODO Finish Help, add stuff.
+      {
+        std::string help_message;
+        help_message.append
+        (
+          '\n' +
+          BOX[0] + box_line + BOX[2] + '\n' +
+          BOX[3] + "                   Flux Fetch                   " + BOX[3] + '\n' +
+          BOX[6] + box_line + BOX[7] + '\n' +
+          BOX[3] + "Fetch and display operating system information. " + BOX[3] + '\n' +
+          BOX[6] + box_line + BOX[7] + '\n' +
+          BOX[3] + "  fluxfetch [/H]                                " + BOX[3] + '\n' +
+          BOX[6] + box_line + BOX[7] + '\n' +
+          BOX[3] + "  /h,/HELP,/?     This help screen.             " + BOX[3] + '\n' +
+          BOX[6] + box_line + BOX[7] + '\n' +
+          BOX[3] + "" + CR + " 2022 Ian Pride - New Pride Software/Services  " + BOX[3] + '\n' +
+          BOX[4] + box_line + BOX[5] + "\n\n"
+        );
+        std::cout << help_message;
+        wait_continue();
+        return 0;
+      }
+    }
+  }
+  argc--;
+  cout << logo;
+  wait_continue();
+}
