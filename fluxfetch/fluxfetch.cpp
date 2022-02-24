@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-// 'Flux Fetch' - 'Fetch' and display           //
+// 'Apex Fetch' - 'Fetch' and display           //
 // operating system information in a console /  //
 // command line.                                //
 // © 2022 Ian Pride - New Pride Software /      //
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
   GetWindowThreadProcessId(conHwnd, &dwProcessIdMain);
   const bool isOwnConWin = (dwProcessIdThis == dwProcessIdMain);
   const string
-    TITLE = "Flux Fetch",
+    TITLE = "Apex Fetch",
     TITLEESC = "\x1b]0;" + TITLE + "\007";
   bool
     isOwnWindow = IsOwnWindow();
@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
         (
           '\n' +
           BOX[0] + box_line + BOX[2] + '\n' +
-          BOX[3] + "                   Flux Fetch                   " + BOX[3] + '\n' +
+          BOX[3] + "                   Apex Fetch                   " + BOX[3] + '\n' +
           BOX[6] + box_line + BOX[7] + '\n' +
           BOX[3] + "Fetch and display operating system information. " + BOX[3] + '\n' +
           BOX[6] + box_line + BOX[7] + '\n' +
